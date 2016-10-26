@@ -17,23 +17,12 @@ function guess_filename(url, res_headers) {
 	}
 }
 
-function strip_bom(content) {
-	if (content.charCodeAt(0) === 65279) {
-		content = content.slice(1)
-	}
-	return content
-}
-
-function strip_shebang(content) {
-	return content.replace(/^\#\!.*/, "")
-}
-
 // load specific file as utf-8 file and return
 // the file content without bom and shebang
 function load_utf8_file(filename) {
 	filename = path.resolve(filename)
 	var content = fs.readFileSync(filename, 'utf8')
-	return strip_shebang(strip_bom(content))
+	return content
 }
 
 function load_from_url(url, cb) {
@@ -52,7 +41,6 @@ function load_from_url(url, cb) {
 		else {
 			var filename = guess_filename(url, res.headers) || hash(body)
 			body = body.toString('utf8')
-			body = strip_shebang(body)
 			var result = {
 				filename: filename,
 				content: body
@@ -64,13 +52,12 @@ function load_from_url(url, cb) {
 
 function load(target, cb) {
 	if (is_url(target)) {
-		load_from_url(url, cb)
+		load_from_url(target, cb)
 	}
 	else {
 		try {
 			var pathname = path.resolve(target)
 			var filename = path.basename(pathname)
-			log.info('read file from ' + JSON.stringify(pathname) + "...")
 			var content = load_utf8_file(pathname)
 			cb(null, {
 				filename: filename,
@@ -86,8 +73,6 @@ function load(target, cb) {
 
 exports.is_url = is_url
 exports.guess_filename = guess_filename
-exports.strip_bom = strip_bom
-exports.strip_shebang = strip_shebang
 exports.is_url = is_url
 exports.load_utf8_file = load_utf8_file
 exports.load_from_url = load_from_url
