@@ -63,20 +63,19 @@ function load_from_url(url, cb) {
 }
 
 function load(target, cb) {
-	var input = {
-		filename: null,
-		content: null
-	}
 	if (is_url(target)) {
-		
+		load_from_url(url, cb)
 	}
 	else {
 		try {
 			var pathname = path.resolve(target)
-			input.filename = path.basename(pathname)
+			var filename = path.basename(pathname)
 			log.info('read file from ' + JSON.stringify(pathname) + "...")
-			input.content = load_utf8_file(pathname)
-			cb(null, input)
+			var content = load_utf8_file(pathname)
+			cb(null, {
+				filename: filename,
+				content: content
+			})
 		}
 		catch (err) {
 			console.error(err.message)
