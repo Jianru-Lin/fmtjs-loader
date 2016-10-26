@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha"
+    "test": "./node_modules/mocha/bin/mocha",
+    "test-cover": "istanbul cover ./node_modules/mocha/bin/_mocha"
   },
   "author": "Jianru Lin",
   "license": "MIT",
@@ -14,7 +15,6 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "codecov": "^1.0.1",
-    "istanbul": "^0.4.5",
     "mocha": "^3.1.2"
   }
 }
