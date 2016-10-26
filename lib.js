@@ -65,7 +65,7 @@ function load(target, cb) {
 			})
 		}
 		catch (err) {
-			console.error(err.message)
+			// console.error(err.message)
 			cb(err)
 		}
 	}
